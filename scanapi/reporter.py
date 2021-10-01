@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import datetime
 import logging
-from os.path import abspath
+import pathlib
+import webbrowser
 
 from pkg_resources import get_distribution
 
@@ -14,9 +15,17 @@ logger = logging.getLogger(__name__)
 
 
 class Reporter:
+    """Class that writes the scan report
+
+    Attributes:
+        output_path[str, optional]: Report output path
+        template[str, optional]: Custom report template path
+
+    """
+
     def __init__(self, output_path=None, template=None):
         """Creates a Reporter instance object."""
-        self.output_path = output_path or "scanapi-report.html"
+        self.output_path = pathlib.Path(output_path or "scanapi-report.html")
         self.template = template
 
     def write(self, results):
@@ -33,7 +42,7 @@ class Reporter:
         logger.info("Writing documentation")
 
         template_path = self.template if self.template else "report.html"
-        has_external_template = True if self.template else False
+        has_external_template = bool(self.template)
         context = self._build_context(results)
 
         content = render(template_path, context, has_external_template)
@@ -42,7 +51,11 @@ class Reporter:
             doc.write(content)
 
         logger.info("\nThe documentation was generated successfully.")
-        logger.info(f"It is available at {abspath(self.output_path)}")
+        logger.info(f"It is available at {self.output_path.resolve().as_uri()}")
+
+    def open_report_in_browser(self):
+        """Open the results file on a browser"""
+        webbrowser.open(self.output_path.resolve().as_uri())
 
     @staticmethod
     def write_without_generating_report(results):

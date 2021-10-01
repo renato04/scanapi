@@ -77,8 +77,8 @@ class TestFilterResponseVar:
     def test_should_return_dictionary_without_response_var(
         self, spec_evaluator
     ):
-        vars_ = {"var_1": "${{response.json()['key']}}", "var_2": "foo"}
-        assert spec_evaluator.filter_response_var(vars_) == {"var_2": "foo"}
+        spec_vars = {"var_1": "${{response.json()['key']}}", "var_2": "foo"}
+        assert spec_evaluator.filter_response_var(spec_vars) == {"var_2": "foo"}
 
 
 @mark.describe("spec evaluator")
@@ -155,3 +155,18 @@ class TestEvaluateList:
                 mocker.call("bar", spec_evaluator, False),
             ]
         )
+
+
+@mark.describe("spec evaluator")
+@mark.describe("__repr__")
+class TestRepr:
+    @mark.context("when registry is empty")
+    @mark.it("should return {}")
+    def test_when_registry_is_empty(self):
+        spec_evaluator = SpecEvaluator({}, {})
+        assert repr(spec_evaluator) == "{}"
+
+    @mark.context("when registry is not empty")
+    @mark.it("should return {'name': 'foo'}")
+    def test_when_registry_is_not_empty(self, spec_evaluator):
+        assert repr(spec_evaluator) == "{'name': 'foo'}"

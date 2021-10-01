@@ -17,7 +17,8 @@
 - [ ] Current PR does not significantly decrease the code coverage and docstring coverage.
 - [ ] My code follows the style guidelines of this project.
 - [ ] I have run ScanAPI locally and manually tested my changes. [Instructions](https://github.com/scanapi/scanapi/wiki/Run-ScanAPI-Locally).
+- [ ] I have squashed my commits. [Instructions](https://github.com/scanapi/scanapi/wiki/Squashing-Commits).
 
 ## Issue
 <!--- All PRs must have a related issue. This way we can ensure that no one loses time working in something that does not needed to be done. -->
-Closes <issue_number>
+Closes #<issue_number>
